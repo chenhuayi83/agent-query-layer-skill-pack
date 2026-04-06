@@ -17,3 +17,16 @@ Published files:
 
 Current phase-1 scope stays inside DEX-first market-read workflows on `bsc` and `solana`.
 For supported service names and routing guidance, read `references/capabilities.md` after install.
+
+## Test Environment
+
+This test deployment is currently available for validation:
+
+- Test gateway base URL: `http://43.135.176.179:8080`
+- Test hosted MCP URL: `http://43.135.176.179:8090`
+- Published hosted MCP URL: `https://mcp.chainrpc.io`
+- Published BSC JSON-RPC URL: `https://gateway.chainrpc.io/rpc/bsc`
+- Published Solana JSON-RPC URL: `https://gateway.chainrpc.io/rpc/solana`
+
+Use the test URLs when validating the latest test-node deployment.
+Use the published hosted URLs above when validating the default hosted install flow.

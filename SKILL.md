@@ -22,6 +22,13 @@ For the currently backed service catalog and request routing guidance, use `refe
 - Keep `mcp_server_url` distinct from `gateway_base_url`.
 - Treat `workspace_id` as a diagnostic label, not as hosted auth.
 
+## Test Deployment
+
+- Current test gateway URL: `http://43.135.176.179:8080`.
+- Current test hosted MCP URL: `http://43.135.176.179:8090`.
+- Use the same bearer-auth contract when validating the test node.
+- Treat the test-node URLs as validation endpoints, not as the default published hosted URLs.
+
 ## Wrapper Boundary
 
 - Use this skill to steer the host toward the product MCP surface for session workflows and toward gateway-owned JSON-RPC routes for raw chain compatibility.
