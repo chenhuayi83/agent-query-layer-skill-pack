@@ -16,6 +16,7 @@ This artifact is packaged for one pilot account and preserves the hosted phase-1
 - Auth header: `Authorization: Bearer <api_key>`
 - MCP capability docs: repository `apps/mcp-server/README.md`
 - Capability summary for the installed skill: `references/capabilities.md`
+- Quick validation guide: `references/quickstart.md`
 
 ## Test Deployment Endpoints
 
@@ -30,3 +31,4 @@ This artifact is packaged for one pilot account and preserves the hosted phase-1
 - Do not treat `workspace_id` as the hosted source of truth for identity.
 - Do not add host-local retries that mask gateway continuity or source-state events.
 - Route all MCP and JSON-RPC traffic through product-owned surfaces only.
+- Prefer `references/quickstart.md` for copy-ready smoke checks instead of rewriting validation commands from memory.

@@ -1,33 +1,67 @@
 ---
 name: agent-query-layer-skill-pack
-description: Use Agent-Query-Layer through the hosted MCP and gateway JSON-RPC surfaces.
+description: Use when the user needs Agent Query Layer market-read data, hosted MCP workflows, gateway JSON-RPC compatibility, or help routing token price, OHLCV, liquidity, token profile, and pool requests across the current `bsc` and `solana` DEX-first surface.
 ---
 
 # Agent Query Layer Skill Pack
 
-Use this skill when you need Agent-Query-Layer market-read or session workflows through the hosted product surfaces.
+Use this skill when you need Agent Query Layer market-read or session workflows through the hosted product surfaces.
 
-This skill is a host-side wrapper and onboarding layer. It is not the capability contract.
+This skill is a host-side wrapper and onboarding layer. It is not the canonical product contract.
 It should still teach the host enough supported capability vocabulary to route common requests accurately.
 
-For MCP protocol operations, tool semantics, and runtime behavior, use the MCP server docs as the source of truth.
-For the currently backed service catalog and request routing guidance, use `references/capabilities.md`.
+For MCP protocol operations and runtime behavior, use the MCP server docs as the source of truth.
+For the current service catalog and request routing guidance, use `references/capabilities.md`.
+
+## When To Use
+
+Trigger this skill when the request involves any of the following:
+
+- latest token price on `bsc` or `solana`
+- token OHLCV, candles, or chart windows
+- token profile or token metadata lookup
+- token liquidity or pool metadata
+- canonical price, asset, or market reads
+- hosted MCP setup or validation
+- gateway `BSC` or `Solana` JSON-RPC validation
+- "what can this skill do?" or "which tool should I use?"
+
+## Live Data Rule
+
+Do not answer current market-read questions from memory.
+
+If the request depends on live price, liquidity, OHLCV, or current pool state:
+
+1. use MCP or gateway calls
+2. report the actual returned result
+3. surface unsupported or degraded-source states clearly
+
+Do not invent trending, gainers, new listings, or unsupported CEX answers.
 
 ## Host Setup
 
 - Create an API key in portal `Dashboard Keys` before using hosted MCP or gateway access.
 - Expose that key through the host environment variable referenced by your skill config, for example `AQL_API_KEY`.
-- Configure the hosted MCP endpoint at `https://mcp.chainrpc.io`.
+- Configure the published hosted MCP endpoint at `https://mcp.chainrpc.io`.
 - Authenticate hosted traffic with `Authorization: Bearer <api_key>`.
 - Keep `mcp_server_url` distinct from `gateway_base_url`.
 - Treat `workspace_id` as a diagnostic label, not as hosted auth.
 
 ## Test Deployment
 
-- Current test gateway URL: `http://43.135.176.179:8080`.
-- Current test hosted MCP URL: `http://43.135.176.179:8090`.
+- Current test gateway URL: `http://43.135.176.179:8080`
+- Current test hosted MCP URL: `http://43.135.176.179:8090`
 - Use the same bearer-auth contract when validating the test node.
 - Treat the test-node URLs as validation endpoints, not as the default published hosted URLs.
+
+## Quick Route
+
+- Latest token price: prefer `market.get_token_price`, or `market.read_price` when the caller wants canonical contract output
+- OHLCV or candles: prefer `market.get_token_ohlcv`, or `market.read_ohlcv` for canonical output
+- Token metadata: prefer `market.get_token_profile`
+- Token liquidity: prefer `market.get_token_liquidity`
+- Pool or pair metadata: prefer `market.get_pool`
+- Canonical object lookup: prefer `market.resolve_asset` or `market.resolve_market`
 
 ## Wrapper Boundary
 
@@ -37,14 +71,15 @@ For the currently backed service catalog and request routing guidance, use `refe
 
 ## Supported Market Services
 
-- `market.get_token_price`: direct token price lookup for one network and token address.
-- `market.get_token_ohlcv`: direct token OHLCV lookup for one network and token address.
-- `market.get_token_profile`: direct token metadata lookup for one network and token address.
-- `market.get_token_liquidity`: direct token liquidity lookup for one network and token address.
-- `market.get_pool`: direct pool metadata lookup for one network and pool address.
-- `market.read_price`: friendlier canonical price snapshot lookup when the caller asks for the latest price.
-- `market.read_ohlcv`: friendlier canonical OHLCV lookup when the caller asks for chart candles or a short-range price window.
-- `market.resolve_asset` and `market.resolve_market`: canonical object lookup tools when the caller needs structured contract objects instead of service-shaped results.
+- `market.get_token_price`
+- `market.get_token_ohlcv`
+- `market.get_token_profile`
+- `market.get_token_liquidity`
+- `market.get_pool`
+- `market.read_price`
+- `market.read_ohlcv`
+- `market.resolve_asset`
+- `market.resolve_market`
 
 Current boundary:
 
@@ -52,15 +87,6 @@ Current boundary:
 - Supported DEX networks are `bsc` and `solana`.
 - CEX requests may still return explicit unsupported errors until backing lands.
 - Discovery-heavy requests such as trending, gainers, or new listings are not part of the current skill-pack promise.
-
-## Request Routing Guide
-
-- If the user asks for `the latest token price`, prefer `market.get_token_price` or `market.read_price`.
-- If the user asks for `candles`, `ohlcv`, `chart`, or `price window`, prefer `market.get_token_ohlcv` or `market.read_ohlcv`.
-- If the user asks for `token metadata`, `symbol`, `name`, or `profile`, prefer `market.get_token_profile`.
-- If the user asks for `liquidity`, prefer `market.get_token_liquidity` for token-level liquidity context.
-- If the user asks for `pool details`, `pair metadata`, or `pool composition`, prefer `market.get_pool`.
-- If the user asks for a contract-shaped object shared with REST or gateway semantics, prefer the canonical `market.resolve_*` tools.
 
 ## Code And Query Expectations
 
@@ -73,4 +99,5 @@ Current boundary:
 
 - [Capabilities](references/capabilities.md)
 - [Partner Kit](references/partner-kit.md)
+- [Quickstart](references/quickstart.md)
 - Repository MCP server docs: `apps/mcp-server/README.md`

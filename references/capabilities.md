@@ -30,8 +30,16 @@ This reference tells the agent what the current skill-pack can do without forcin
 - Pool metadata for one pair: call `market.get_pool` with `network` and `pool_address`.
 - Canonical structured price read: call `market.read_price` with `chain` plus `address`.
 
+## Try These Prompts
+
+- "What is the latest price for this BSC token?"
+- "Use the test deployment and list the market MCP tools."
+- "Give me the canonical price snapshot for this address."
+- "Show the pool metadata for this pair."
+
 ## Response Guidance
 
 - Prefer concise summaries plus the most relevant fields instead of dumping raw objects.
 - Keep `source_id`, freshness, and explicit unsupported errors visible when they matter to the answer.
 - When code is requested, generate examples that call the hosted MCP surface or use the installed skill host flow rather than inventing direct upstream REST calls.
+- If the user wants a live validation flow, route them to `references/quickstart.md`.
