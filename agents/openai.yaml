@@ -1,4 +1,4 @@
 interface:
   display_name: "Agent Query Layer Skill Pack"
   short_description: "Use hosted MCP and gateway JSON-RPC for market-read workflows."
-  default_prompt: "Use $agent-query-layer-skill-pack when you need Agent-Query-Layer token price, OHLCV, token profile, liquidity, pool metadata, session workflows, or hosted chain compatibility through the product MCP and gateway surfaces."
+  default_prompt: "Use $agent-query-layer-skill-pack when you need Agent-Query-Layer token price, OHLCV, token profile, liquidity, pool metadata, symbol-first CEX asset or market queries, session workflows, or hosted chain compatibility through the product MCP and gateway surfaces."

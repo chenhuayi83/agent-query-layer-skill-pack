@@ -5,15 +5,15 @@ This artifact is packaged for one pilot account and preserves the hosted phase-1
 ## Portal Onboarding
 
 1. Complete portal registration or pilot activation for the target account.
-2. Open portal `Dashboard Keys` and create an API key.
-3. Store the issued key in the host environment variable used by your skill config, for example `AQL_API_KEY`.
+2. Open portal `Dashboard Keys` and create a `workspace_api_key`.
+3. Store the issued key in the host environment variable used by your skill config, for example `AQL_WORKSPACE_API_KEY`.
 
 ## Hosted Access
 
 - MCP endpoint: `https://mcp.chainrpc.io`
 - BSC JSON-RPC endpoint: `https://gateway.chainrpc.io/rpc/bsc`
 - Solana JSON-RPC endpoint: `https://gateway.chainrpc.io/rpc/solana`
-- Auth header: `Authorization: Bearer <api_key>`
+- Auth header: `Authorization: Bearer <workspace_api_key>`
 - MCP capability docs: repository `apps/mcp-server/README.md`
 - Capability summary for the installed skill: `references/capabilities.md`
 - Quick validation guide: `references/quickstart.md`
@@ -31,4 +31,3 @@ This artifact is packaged for one pilot account and preserves the hosted phase-1
 - Do not treat `workspace_id` as the hosted source of truth for identity.
 - Do not add host-local retries that mask gateway continuity or source-state events.
 - Route all MCP and JSON-RPC traffic through product-owned surfaces only.
-- Prefer `references/quickstart.md` for copy-ready smoke checks instead of rewriting validation commands from memory.
