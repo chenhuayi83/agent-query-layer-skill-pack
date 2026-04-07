@@ -20,7 +20,7 @@ Use this file when you want to validate the skill against the active test deploy
 Export the issued key before running any validation:
 
 ```bash
-export AQL_API_KEY="<api_key>"
+export AQL_WORKSPACE_API_KEY="<workspace_api_key>"
 ```
 
 ## Fast Health Check
@@ -45,7 +45,7 @@ JSON
 curl -sS -D /tmp/aql-mcp-init.headers \
   -o /tmp/aql-mcp-init.body \
   -X POST http://43.135.176.179:8090 \
-  -H "Authorization: Bearer $AQL_API_KEY" \
+  -H "Authorization: Bearer $AQL_WORKSPACE_API_KEY" \
   -H "Content-Type: application/json" \
   --data-binary @/tmp/aql-mcp-init.json
 
@@ -63,7 +63,7 @@ JSON
 
 curl -sS \
   -X POST http://43.135.176.179:8090 \
-  -H "Authorization: Bearer $AQL_API_KEY" \
+  -H "Authorization: Bearer $AQL_WORKSPACE_API_KEY" \
   -H "Content-Type: application/json" \
   -H "Mcp-Session-Id: $SESSION_ID" \
   --data-binary @/tmp/aql-mcp-tools.json
@@ -76,8 +76,10 @@ You should see friendly market tools such as:
 - `market.get_token_profile`
 - `market.get_token_liquidity`
 - `market.get_pool`
-- `market.read_price`
-- `market.read_ohlcv`
+- `market.get_asset_profile`
+- `market.get_market_profile`
+- `market.get_price_snapshot`
+- `market.get_ohlcv_window`
 
 ## MCP Price Check
 
@@ -88,7 +90,7 @@ JSON
 
 curl -sS \
   -X POST http://43.135.176.179:8090 \
-  -H "Authorization: Bearer $AQL_API_KEY" \
+  -H "Authorization: Bearer $AQL_WORKSPACE_API_KEY" \
   -H "Content-Type: application/json" \
   -H "Mcp-Session-Id: $SESSION_ID" \
   --data-binary @/tmp/aql-mcp-price.json
@@ -103,7 +105,7 @@ JSON
 
 curl -sS \
   -X POST http://43.135.176.179:8080/rpc/bsc \
-  -H "Authorization: Bearer $AQL_API_KEY" \
+  -H "Authorization: Bearer $AQL_WORKSPACE_API_KEY" \
   -H "Content-Type: application/json" \
   --data-binary @/tmp/aql-rpc-bsc.json
 ```
