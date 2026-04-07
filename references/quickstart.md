@@ -1,19 +1,21 @@
 # Quickstart
 
-Use this file when you want to validate the skill against the active test deployment without reverse-engineering the MCP flow first.
+Use this file when you want to validate the skill against the active test deployment without reverse-engineering the gateway flow first.
 
 ## Current Endpoints
 
 ### Test Deployment
 
 - Gateway base URL: `http://43.135.176.179:8080`
-- Hosted MCP URL: `http://43.135.176.179:8090`
+- Gateway WebSocket URL: `ws://43.135.176.179:8080/v1/market/ws`
 
 ### Published Hosted Endpoints
 
-- Hosted MCP URL: `https://mcp.chainrpc.io`
+- Gateway base URL: `https://gateway.chainrpc.io`
+- Gateway WebSocket URL: `wss://gateway.chainrpc.io/v1/market/ws`
 - BSC JSON-RPC URL: `https://gateway.chainrpc.io/rpc/bsc`
 - Solana JSON-RPC URL: `https://gateway.chainrpc.io/rpc/solana`
+- Optional private MCP URL when your partner kit explicitly includes one: `https://mcp.chainrpc.io`
 
 ## Prerequisite
 
@@ -27,74 +29,50 @@ export AQL_WORKSPACE_API_KEY="<workspace_api_key>"
 
 ```bash
 curl http://43.135.176.179:8080/
-curl http://43.135.176.179:8090/
 ```
 
 Expected:
 
 - gateway root returns `404 Not Found`
-- MCP root returns `405 Method Not Allowed`
 
-## MCP Initialize
-
-```bash
-cat >/tmp/aql-mcp-init.json <<'JSON'
-{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-11-25","capabilities":{},"clientInfo":{"name":"skill-quickstart","version":"1.0.0"}}}
-JSON
-
-curl -sS -D /tmp/aql-mcp-init.headers \
-  -o /tmp/aql-mcp-init.body \
-  -X POST http://43.135.176.179:8090 \
-  -H "Authorization: Bearer $AQL_WORKSPACE_API_KEY" \
-  -H "Content-Type: application/json" \
-  --data-binary @/tmp/aql-mcp-init.json
-
-cat /tmp/aql-mcp-init.body
-```
-
-## MCP Tools List
+## Gateway REST Price Snapshot
 
 ```bash
-SESSION_ID=$(perl -ne 'print "$1\n" if /^Mcp-Session-Id: (.*)\r$/' /tmp/aql-mcp-init.headers | head -n 1)
-
-cat >/tmp/aql-mcp-tools.json <<'JSON'
-{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}
-JSON
-
-curl -sS \
-  -X POST http://43.135.176.179:8090 \
+curl -sS -G "http://43.135.176.179:8080/v1/market/price-snapshot" \
   -H "Authorization: Bearer $AQL_WORKSPACE_API_KEY" \
-  -H "Content-Type: application/json" \
-  -H "Mcp-Session-Id: $SESSION_ID" \
-  --data-binary @/tmp/aql-mcp-tools.json
+  --data-urlencode "market_kind=dex" \
+  --data-urlencode "chain=bsc" \
+  --data-urlencode "address=0xbnb"
 ```
 
-You should see friendly market tools such as:
-
-- `market.get_token_price`
-- `market.get_token_ohlcv`
-- `market.get_token_profile`
-- `market.get_token_liquidity`
-- `market.get_pool`
-- `market.get_asset_profile`
-- `market.get_market_profile`
-- `market.get_price_snapshot`
-- `market.get_ohlcv_window`
-
-## MCP Price Check
+## Gateway REST CEX Market Profile
 
 ```bash
-cat >/tmp/aql-mcp-price.json <<'JSON'
-{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"market.get_token_price","arguments":{"network":"bsc","address":"0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"}}}
-JSON
-
-curl -sS \
-  -X POST http://43.135.176.179:8090 \
+curl -sS -G "http://43.135.176.179:8080/v1/market/market-profile" \
   -H "Authorization: Bearer $AQL_WORKSPACE_API_KEY" \
-  -H "Content-Type: application/json" \
-  -H "Mcp-Session-Id: $SESSION_ID" \
-  --data-binary @/tmp/aql-mcp-price.json
+  --data-urlencode "market_kind=cex" \
+  --data-urlencode "symbol=BTCUSDT"
 ```
+
+## Gateway WebSocket Subscribe
+
+Use a websocket client such as `wscat` from the same machine where the skill is installed:
+
+```bash
+npx -y wscat -c "ws://43.135.176.179:8080/v1/market/ws" \
+  -H "Authorization: Bearer $AQL_WORKSPACE_API_KEY"
+```
+
+Then send this subscribe frame:
+
+```json
+{"action":"subscribe","profile":"standard","targets":[{"market_kind":"dex","target_id":"0xbnb","chain":"bsc","event_family":"price","base_asset":"BNB","quote_asset":"USDT"}]}
+```
+
+Expected websocket behavior:
+
+- first event is `SESSION_READY`
+- later events include `MARKET_PRICE` for the subscribed DEX target
 
 ## Gateway JSON-RPC Check
 
@@ -109,6 +87,11 @@ curl -sS \
   -H "Content-Type: application/json" \
   --data-binary @/tmp/aql-rpc-bsc.json
 ```
+
+## Optional Private MCP Companion
+
+- Only use a private MCP endpoint when your issued partner kit explicitly includes one.
+- A private MCP companion is not required for the standard hosted validation checks above.
 
 ## How To Use These Checks
 
