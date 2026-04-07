@@ -20,7 +20,7 @@ For the currently backed service catalog and request routing guidance, use `refe
 - Configure gateway WebSocket subscriptions at `wss://gateway.chainrpc.io/v1/market/ws`.
 - Authenticate hosted traffic with `Authorization: Bearer <workspace_api_key>`.
 - Use gateway `REST` for request-response market reads, gateway `WebSocket` for live subscriptions, and gateway `JSON-RPC` for raw chain compatibility.
-- If your issued partner kit explicitly includes a private MCP companion at `https://mcp.chainrpc.io`, keep it separate and treat it as optional.
+- If your workspace setup explicitly includes a private MCP companion at `https://mcp.chainrpc.io`, keep it separate and treat it as optional.
 - Treat `workspace_id` as a diagnostic label, not as hosted auth.
 
 ## Test Deployment
@@ -62,7 +62,7 @@ Current boundary:
 - If the user asks for `token metadata`, `symbol`, `name`, or `profile`, prefer gateway `GET /v1/market/asset-profile` or `GET /v1/market/market-profile`.
 - If the user asks for live price or short-range OHLCV updates, prefer gateway `WebSocket` subscribe flow on `/v1/market/ws`.
 - If the user asks for raw chain calls, use gateway `POST /rpc/bsc` or `POST /rpc/solana`.
-- If a partner-specific private MCP companion is explicitly provisioned, use it only for that companion workflow rather than as the standard hosted path.
+- If a separately provisioned private MCP companion is explicitly available, use it only for that companion workflow rather than as the standard hosted path.
 
 ## Code And Query Expectations
 
@@ -77,6 +77,6 @@ Current boundary:
 ## References
 
 - [Capabilities](references/capabilities.md)
-- [Partner Kit](references/partner-kit.md)
+- [Hosted Access](references/hosted-access.md)
 - [Quickstart](references/quickstart.md)
 - Repository gateway API inventory: `docs/standards/agent-api-inventory.md`

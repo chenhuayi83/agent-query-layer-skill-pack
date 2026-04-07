@@ -8,7 +8,7 @@ This reference tells the agent how to use the current gateway-owned phase-1 surf
 - Primary external surfaces: gateway `REST` market reads, gateway `WebSocket` subscriptions, and hosted `BSC` plus `Solana` `JSON-RPC` compatibility
 - Current backed service families: canonical market-read object lookups, live price or short-range OHLCV subscriptions, and raw chain compatibility
 - Current backed CEX slice: symbol-first `asset_profile`, `market_profile`, `price_snapshot`, and `ohlcv_window` through the canonical market-read contract
-- A private MCP companion may still be provisioned separately for partner-specific integrations, but it is not the default external path.
+- A private MCP companion may still be provisioned separately, but it is not the default external path.
 - Do not promise trending, gainers, new listings, orderbooks, execution, balances, or portfolio workflows from this skill.
 
 ## Gateway REST Routes

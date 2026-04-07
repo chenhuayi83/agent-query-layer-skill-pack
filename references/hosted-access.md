@@ -1,6 +1,6 @@
-# Partner Kit
+# Hosted Access
 
-This artifact is packaged for one pilot account and preserves the hosted phase-1 contract.
+This artifact preserves the hosted phase-1 contract for the installed skill.
 
 ## Portal Onboarding
 
@@ -18,7 +18,7 @@ This artifact is packaged for one pilot account and preserves the hosted phase-1
 - Gateway REST OHLCV window route: `https://gateway.chainrpc.io/v1/market/ohlcv-window`
 - BSC JSON-RPC endpoint: `https://gateway.chainrpc.io/rpc/bsc`
 - Solana JSON-RPC endpoint: `https://gateway.chainrpc.io/rpc/solana`
-- Optional private MCP endpoint for separately issued partner connectors: `https://mcp.chainrpc.io`
+- Optional private MCP endpoint when separately provisioned: `https://mcp.chainrpc.io`
 - Auth header: `Authorization: Bearer <workspace_api_key>`
 - Gateway API inventory docs: repository `docs/standards/agent-api-inventory.md`
 - Capability summary for the installed skill: `references/capabilities.md`
@@ -28,7 +28,7 @@ This artifact is packaged for one pilot account and preserves the hosted phase-1
 
 - Test gateway URL: `http://43.135.176.179:8080`
 - Test gateway WebSocket URL: `ws://43.135.176.179:8080/v1/market/ws`
-- Optional private test MCP URL when a partner connector needs it: `http://43.135.176.179:8090`
+- Optional private test MCP URL when a private MCP companion is provisioned: `http://43.135.176.179:8090`
 - Current test-node repository head validated in operations docs: `ab80755`
 - The test node is intended for smoke checks of gateway access, install flow, and bearer-auth behavior.
 
@@ -38,7 +38,7 @@ This artifact is packaged for one pilot account and preserves the hosted phase-1
 - Route live market subscriptions through gateway `WebSocket`.
 - Route raw chain compatibility through gateway `JSON-RPC`.
 - Keep websocket target promises inside the current DEX-first realtime scope unless later contract docs widen that boundary.
-- If a partner-specific private MCP companion is issued, treat it as optional and non-default.
+- If a private MCP companion is provisioned, treat it as optional and non-default.
 - Do not treat `workspace_id` as the hosted source of truth for identity.
 - Do not add host-local retries that mask gateway continuity or source-state events.
 - Route all hosted traffic through product-owned surfaces only.
