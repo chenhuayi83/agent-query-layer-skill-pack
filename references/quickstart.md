@@ -15,7 +15,7 @@ Use this file when you want to validate the skill against the active test deploy
 - Gateway WebSocket URL: `wss://gateway.chainrpc.io/v1/market/ws`
 - BSC JSON-RPC URL: `https://gateway.chainrpc.io/rpc/bsc`
 - Solana JSON-RPC URL: `https://gateway.chainrpc.io/rpc/solana`
-- Optional private MCP URL when your partner kit explicitly includes one: `https://mcp.chainrpc.io`
+- Optional private MCP URL when your workspace setup explicitly includes one: `https://mcp.chainrpc.io`
 
 ## Prerequisite
 
@@ -90,7 +90,7 @@ curl -sS \
 
 ## Optional Private MCP Companion
 
-- Only use a private MCP endpoint when your issued partner kit explicitly includes one.
+- Only use a private MCP endpoint when your workspace setup explicitly includes one.
 - A private MCP companion is not required for the standard hosted validation checks above.
 
 ## How To Use These Checks
